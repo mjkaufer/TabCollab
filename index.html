@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<script src="js/wad.min.js"></script>
+		<script src="js/DataChannel.js"></script>
+		<title>TabCollab</title>
+		<style>
+			textarea{
+				width:100%;
+				height:60vh;
+				font-family: monospace !important;
+			}
+			body{
+				text-align: center;
+			}
+			div.friendTab{
+				border: solid black 1px;
+				border-radius: 1em;
+				padding: 1em;
+			}
+		</style>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/bootflat.min.css">
+	</head>
+	<body>
+		<div class="col-md-8 col-md-offset-2">
+			<div class="container-fluid">
+				<h2>TabCollab</h2>
+				<h5>By <a href="http://github.com/mjkaufer">Matthew Kaufer</a></h5>
+				<p>Warning: Because of the way most browsers manage resources, <b>switching tabs will slow the current playback by <u>a lot</u>!</b></p>
+			</div>
+
+			<div class="container-fluid">
+				<textarea id="tab">
+e|-0-0-0---0-3-----| |----------------------0-3-5--1-3-0--------|
+B|-------1---------| |-1----------0---------1-5-6--3-5-1--1-3-0-|
+G|-----------0---0-| |-0--0-----2-0-3-2---0---------------2-4-0-|
+D|-0-0-0-0---------| |----2--2--3---4-3---2---------------------|
+A|-----------------| |-------3----------------------------------|
+E|---------------3-| |------------------------------------------|
+
+|----------------------0-3-5--1-3-0--------|
+|-1----------0---------1-5-6--3-5-1--1-3-0-|
+|-0--0-----2-0-3-2---0---------------2-4-0-|
+|----2--2--3---4-3---2---------------------|
+|-------3----------------------------------|
+|------------------------------------------|
+
+e|---3-2-1-----0-------------------3-2-1-----0--8-8-8------3-2-1-----0-------------------------------|
+B|---------4-----------1-----1-3---------4------8-8-8------------4-----------1-----1-3--4-3-1--------|
+G|-----0-----5-----1-2-----2---------0-----5-----------------0-----5-----1-2-----2------5-3-0--------|
+D|----------------------------------------------------5-------------------------------------2--5-5---|
+A|-3---------------------3-------3-----------------------3---------------------3----------1-3------3-|
+E|---------------1-----------1-----------------------------------------1-----------1----4------------|
+
+e|---3-2-1-----0-------------------3-2-1-----0--8-8-8------3-2-1-----0-------------------------------|
+B|---------4-----------1-----1-3---------4------8-8-8------------4-----------1-----1-3--4-3-1--------|
+G|-----0-----5-----1-2-----2---------0-----5-----------------0-----5-----1-2-----2------5-3-0--------|
+D|----------------------------------------------------5-------------------------------------2--5-5---|
+A|-3---------------------3-------3-----------------------3---------------------3----------1-3------3-|
+E|---------------1-----------1-----------------------------------------1-----------1----4------------|
+
+e|------------------------------------------------------------|
+B|-1-1--1-1-3-5-1-------1-1--1-1-3-5-------1-1--1-1-3-5-1-----|
+G|-1----1---3-----2-0---1----1---3---------1----1---3-----2-0-|
+D|------1-----5-2-2----------1-----5------------1-----5-2-2---|
+A|------------3--------------------3---3--------------3-------|
+E|-4----------------3-3-4----------------3-4----------------3-|
+
+e|-0-0-0---0-3-----| |----------------------0-3-5--1-3-0--------|
+B|-------1---------| |-1----------0---------1-5-6--3-5-1--1-3-0-|
+G|-----------0---0-| |-0--0-----2-0-3-2---0---------------2-4-0-|
+D|-0-0-0-0---------| |----2--2--3---4-3---2---------------------|
+A|-----------------| |-------3----------------------------------|
+E|---------------3-| |------------------------------------------|
+
+|----------------------0-3-5--1-3-0--------|
+|-1----------0---------1-5-6--3-5-1--1-3-0-|
+|-0--0-----2-0-3-2---0---------------2-4-0-|
+|----2--2--3---4-3---2---------------------|
+|-------3----------------------------------|
+|------------------------------------------|
+
+e|-0-----------1-1-------5-5-5-3-1-0----------0------------1-1-------1-1-1-0------------|
+B|---1-----------1-----0---6---5-3---1----------1------------1-----0-0-0-0-1-3-1--------|
+G|-----0---1-2-----2---0---0---0--------2-0-------0---1--2-----2---0---------0-0--------|
+D|-----------3---3-3-------------3-----------------------3---3-3---------------2-2--2---|
+A|-3-------3-----------------------3----------3-------3--------------------0-2-3------3-|
+E|-------3---1-----1---3----------------2-3---------3----1-----1---3---3-3--------------|
+
+e|-0-----------1-1-------5-5-5-3-1-0----------0------------1-1-------1-1-1-0------------|
+B|---1-----------1-----0---6---5-3---1----------1------------1-----0-0-0-0-1-3-1--------|
+G|-----0---1-2-----2---0---0---0--------2-0-------0---1--2-----2---0---------0-0--------|
+D|-----------3---3-3-------------3-----------------------3---3-3---------------2-2--2---|
+A|-3-------3-----------------------3----------3-------3--------------------0-2-3------3-|
+E|-------3---1-----1---3----------------2-3---------3----1-----1---3---3-3--------------|
+
+e|------------------------------------------------------------| |-0-0-0---0-3-----|
+B|-1-1--1-1-3-5-1-------1-1--1-1-3-5-------1-1--1-1-3-5-1-----| |-------1---------|
+G|-1----1---3-----2-0---1----1---3---------1----1---3-----2-0-| |-----------0---0-|
+D|------1-----5-2-2----------1-----5------------1-----5-2-2---| |-0-0-0-0---------|
+A|------------3--------------------3---3--------------3-------| |-----------------|
+E|-4----------------3-3-4----------------3-4----------------3-| |---------------3-|
+
+e|-----------------------------------------|
+B|-1------------0--------------------------|
+G|-0--0-----2------2-------3---------------|
+D|----2--2--3----------6-----6---5---3---5-|
+A|-------3-------------4---------3---------|
+E|----------1------------------------------|
+
+e|-----------0-3---0---------------4-------------------6---6-6-6-8-|
+B|---------1-------------------1-4-----4-----------3-6-------------|
+G|-------0-------------------1-------------------3---------7-7-7-9-|
+D|-----2-------------------1-------------------3-------------------|
+A|---3-------------------3-------------------5---------------------|
+E|-3-------------------4-------------------6---------------------8-|</textarea>
+				</div>
+				<br>
+		</div>
+		<div class="col-md-4 col-md-offset-4">
+			<div class="container-fluid">
+				<div class="form-group">
+
+					<label for="speed"><b>Milliseconds per Note</b></label>
+					
+					<input id="speed" type="number" value="75" class="form-control">
+					<br>
+					<button class="btn btn-primary" id="play"><span class="glyphicon glyphicon-play"></span>&nbsp;Play Your Tab!</button>
+					<br>
+					<br>
+					<button class="btn btn-danger" id="stop"><span class="glyphicon glyphicon-stop"></span>&nbsp;Stop</button>
+
+				</div>
+			</div>
+		</div>
+
+		<br>
+		<br>
+		<hr>
+
+		<div class="col-md-8 col-md-offset-2">
+			<div class="container-fluid">
+		
+				<div class="container-fluid">
+					<div id="tabs">
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<script>
+
+			var guitars = []
+
+
+			var frequencies = [
+				/*e*/[330, 349, 370, 392, 415, 440, 466, 494, 523, 554, 587, 622, 659, 698, 740, 784, 831, 880, 932, 988, 1047],
+				/*b*/[247, 262, 277, 294, 311, 330, 349, 370, 392, 415, 440, 466, 494, 523, 554, 587, 622, 659, 698, 740, 784],
+				/*g*/[196, 208, 220, 233, 247, 262, 277, 294, 311, 330, 349, 370, 392, 415, 440, 466, 494, 523, 554, 587, 622],
+				/*d*/[147, 156, 165, 175, 185, 196, 208, 220, 233, 247, 262, 277, 294, 311, 330, 349, 370, 392, 415, 440, 466],
+				/*a*/[110, 117, 123, 131, 139, 147, 156, 165, 175, 185, 196, 208, 220, 233, 247, 262, 277, 294, 311, 330, 349],
+				/*E*/[82, 87, 92, 98, 104, 110, 117, 123, 131, 139, 147, 156, 165, 175, 185, 196, 208, 220, 233, 247, 262]
+			]
+
+			function makeGuitar(){
+				var guitar = new Wad(Wad.presets.piano)
+				guitar.source = "sawtooth"
+				return guitar
+			}
+
+			function playNotes(arr){//arr is a 2 slot array, containing 6 slot arrays, with either a number (0-20, inclusive), or null
+				var play = []
+				var amount = 1;
+
+				for(var i = 0; i < arr[0].length; i++){
+					if(isNaN(arr[0][i]))
+						continue;
+
+					if(!isNaN(arr[1][i]))//if the next digit is _also_ a number (which means that the tab is something like 10)
+						amount = 2
+				}
+
+				for(var i = 0; i < arr[0].length; i++){
+					if(isNaN(arr[0][i]))
+						continue;
+
+					var freq = 0;
+					var string = guitars[i];
+
+					for(var j = 0; j < amount; j++){
+						if(!isNaN(parseInt(arr[j][i]))){
+							freq *= Math.pow(10, j)
+							freq += parseInt(arr[j][i])	
+						}
+						
+					}
+
+					string.play({pitch: frequencies[i][freq]})
+				}
+
+				return amount
+			}
+
+			function mute(){// currently a bit buggy
+				for(var i = 0; i < guitars.length; i++){
+					// console.log(i)
+					try{
+						guitars[i].stop()	
+					} catch(e){}
+				}
+			}
+
+			for(var i = 0; i < frequencies.length; i++)
+				guitars[i] = makeGuitar()
+
+			var chordRegex = /[EBGDA]/gi;
+			var breakRegex = /\-\|\-/g;
+
+			function cleanTab(tab){
+				for(var i = 0; i < tab.length; i++){
+					tab[i] = tab[i].replace(chordRegex,"");
+					tab[i] = tab[i].replace(breakRegex,"-");
+					tab[i] = tab[i].replace(/\|/g, "");
+				}
+
+				return tab;
+			}
+
+			function addToSong(song, arr){
+				for(var i = 0; i < song.length; i++)
+					song[i] += arr[i]
+				return song
+			}
+
+			function songToNotes(song, index){
+				var ret = [];
+
+				for(var i = 0; i < song.length; i++)
+					ret.push(song[i].substr(index, 1))
+
+				return ret
+			}
+
+
+			var index = 0;
+			var musicInterval = 0;
+
+			function playSong(song){
+				index = 0;
+				clearInterval(musicInterval)
+
+				musicInterval = setInterval(function(){
+					if(index >= song[0].length)
+						// index %= song[0].length;//the show must go on!
+						return clearInterval(musicInterval)
+
+					var notes = songToNotes(song, index);
+					var nextNotes = songToNotes(song, index+1);
+					// mute();
+					
+
+					index+=playNotes([notes, nextNotes]);
+
+				}, document.getElementById('speed').value)
+			}
+
+			var play = document.getElementById('play');
+
+			function playClick(){
+				var text = document.getElementById('tab').value;
+				text = text.replace(/\n+/g, "\n").replace(/^\n/g,"").split("\n");
+
+				var newSong = ["", "", "", "", "", ""]
+
+				for(var i = 0; i < text.length; i++)
+					newSong[i % newSong.length] += text[i]
+
+				clearInterval(musicInterval)
+
+				playSong(newSong)
+			}
+
+			play.onclick = function(){
+				playClick()
+			}
+
+			var stop = document.getElementById('stop');
+
+			stop.onclick = function(){
+				clearInterval(musicInterval)
+			}
+
+		</script>
+
+		<script>
+			var channel = new DataChannel();
+			function createTabDiv(userid){
+				var div = document.createElement('div');
+				div.id = "tab-" + userid
+				div.className = "friendTab"
+
+				var who = document.createElement('h3');
+
+				if(who.textContent == "")
+					who.textContent = userid + "'s Tab";
+				else if(who.innerHTML == "")
+					who.innerHTML = userid + "'s Tab";
+
+				var pre = document.createElement('pre');
+
+				div.appendChild(who);
+				div.appendChild(pre);
+
+				document.getElementById('tabs').appendChild(div)
+			}
+			channel.onopen = function (userid) {
+				
+			};
+
+			channel.onmessage = function (message, userid) {
+				
+			};
+
+			channel.onleave = function (userid) {
+				
+			};
+
+			
+			// channel.connect();
+			// channel.open();
+
+			
+		</script>
+	</body>
+</html>

@@ -19,9 +19,18 @@
 				border-radius: 1em;
 				padding: 1em;
 			}
+			pre{
+				text-align: left;
+			}
+
+			#tabs div{
+				margin: 3em 0 !important;
+			}
+
 		</style>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 		<link rel="stylesheet" href="css/bootflat.min.css">
+		<link rel="stylesheet" href="css/awesome-bootstrap-checkbox.min.css">
 	</head>
 	<body>
 		<div class="col-md-8 col-md-offset-2">
@@ -131,7 +140,12 @@ E|-3-------------------4-------------------6---------------------8-|</textarea>
 					<br>
 					<br>
 					<button class="btn btn-danger" id="stop"><span class="glyphicon glyphicon-stop"></span>&nbsp;Stop</button>
-
+					<br>
+					<br>
+					<button class="btn btn-success" id="sync"><span class="glyphicon glyphicon-refresh"></span>&nbsp;Sync</button>
+					<br>
+					<br>
+					<button class="btn btn-info" id="playForAll"><span class="glyphicon glyphicon-volume-up"></span>&nbsp;Play Your Tab for Everyone</button>
 				</div>
 			</div>
 		</div>
@@ -155,7 +169,7 @@ E|-3-------------------4-------------------6---------------------8-|</textarea>
 		<script>
 
 			var guitars = []
-
+			var muted = [];
 
 			var frequencies = [
 				/*e*/[330, 349, 370, 392, 415, 440, 466, 494, 523, 554, 587, 622, 659, 698, 740, 784, 831, 880, 932, 988, 1047],
@@ -262,7 +276,6 @@ E|-3-------------------4-------------------6---------------------8-|</textarea>
 					var nextNotes = songToNotes(song, index+1);
 					// mute();
 					
-
 					index+=playNotes([notes, nextNotes]);
 
 				}, document.getElementById('speed').value)
@@ -284,6 +297,34 @@ E|-3-------------------4-------------------6---------------------8-|</textarea>
 				playSong(newSong)
 			}
 
+			function getUserPre(uid){
+
+				return document.getElementById('tab-' + uid).getElementsByTagName('pre')[0];
+			}
+
+			function playTab(userid){
+				var text = getUserPre(userid).textContent;
+				text = text.replace(/\n+/g, "\n").replace(/^\n/g,"").split("\n");
+
+				var newSong = ["", "", "", "", "", ""]
+
+				for(var i = 0; i < text.length; i++)
+					newSong[i % newSong.length] += text[i]
+
+				clearInterval(musicInterval)
+
+				playSong(newSong)
+			}
+
+
+			function syncMusic(){
+				channel.send(["tab", document.getElementById('tab').value])
+			}
+
+			function playForAll(){
+				channel.send(["playForAll", document.getElementById('tab').value])
+			}
+
 			play.onclick = function(){
 				playClick()
 			}
@@ -292,6 +333,20 @@ E|-3-------------------4-------------------6---------------------8-|</textarea>
 
 			stop.onclick = function(){
 				clearInterval(musicInterval)
+			}
+
+			var sync = document.getElementById('sync');
+
+			sync.onclick = function(){
+				syncMusic();
+			}
+
+			document.getElementById('playForAll').onclick = function(){
+				playForAll()
+			}
+
+			document.getElementById('tab').onkeyup = function(){
+				syncMusic()
 			}
 
 		</script>
@@ -317,23 +372,43 @@ E|-3-------------------4-------------------6---------------------8-|</textarea>
 
 				document.getElementById('tabs').appendChild(div)
 			}
+
+			function removeTab(userid){
+				document.getElementById('tabs').removeChild(document.getElementById(userid))
+			}
+
 			channel.onopen = function (userid) {
-				
+				createTabDiv(userid)
 			};
 
 			channel.onmessage = function (message, userid) {
+				console.log(userid)
+
+				var command = message[0];
+				var body = message[1] || undefined;
+				console.log(message)
+
+				getUserPre(userid).textContent = body;
+
+				if(command == "tab")
+					return;//already did what we needed
+				else if(command == "playForAll")
+					if(!muted[userid])
+						playTab(userid)
 				
 			};
 
 			channel.onleave = function (userid) {
-				
+				removeTab(userid)
 			};
 
-			
+			// channel.open("test")
+			// channel.connect("test")
 			// channel.connect();
 			// channel.open();
 
 			
 		</script>
+
 	</body>
 </html>

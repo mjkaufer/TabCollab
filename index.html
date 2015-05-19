@@ -378,6 +378,7 @@ E|-3-------------------4-------------------6---------------------8-|</textarea>
 
 			channel.onopen = function (userid) {
 				createTabDiv(userid)
+				syncMusic()
 			};
 
 			channel.onmessage = function (message, userid) {

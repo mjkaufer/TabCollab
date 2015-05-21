@@ -97,6 +97,10 @@ E|---------------3-|
 
 		<script>
 
+			String.prototype.replaceAt=function(index, character) {
+				return this.substr(0, index) + character + this.substr(index+character.length);
+			}
+
 			var guitars = []
 			var muted = [];
 
@@ -196,6 +200,8 @@ E|---------------3-|
 				index = 0;
 				clearInterval(musicInterval)
 
+				var nextIgnore = []
+
 				musicInterval = setInterval(function(){
 					if(index >= song[0].length)
 						// index %= song[0].length;//the show must go on!
@@ -203,9 +209,22 @@ E|---------------3-|
 
 					var notes = songToNotes(song, index);
 					var nextNotes = songToNotes(song, index+1);
+
+					for(var i = 0; i < nextIgnore.length; i++)
+						notes[nextIgnore[i]] = "-"
+
+					nextIgnore = []
 					// mute();
 					
-					index+=playNotes([notes, nextNotes]);
+					// var indexShift = playNotes([notes, nextNotes]);
+					playNotes([notes, nextNotes]);
+
+					for(var i = 0; i < song.length; i++)
+						if(!isNaN(song[i].charAt(index)))
+							nextIgnore.push(i)
+
+
+					index++;
 
 				}, document.getElementById('speed').value)
 			}

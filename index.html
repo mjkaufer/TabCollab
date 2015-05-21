@@ -5,29 +5,7 @@
 		<script src="js/wad.min.js"></script>
 		<script src="js/DataChannel.js"></script>
 		<title>TabCollab</title>
-		<style>
-			textarea{
-				width:100% !important;
-				height:60vh !important;
-				font-family: monospace !important;
-			}
-			body{
-				text-align: center;
-			}
-			div.friendTab{
-				border: solid black 1px;
-				border-radius: 1em;
-				padding: 1em;
-			}
-			pre{
-				text-align: left;
-			}
-
-			#tabs div{
-				margin: 3em 0 !important;
-			}
-
-		</style>
+		<link rel="stylesheet" href="css/style.css">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 		<link rel="stylesheet" href="css/bootflat.min.css">
 	</head>
@@ -36,8 +14,19 @@
 			<div class="container-fluid">
 				<h2>TabCollab</h2>
 				<h5>By <a href="http://github.com/mjkaufer">Matthew Kaufer</a></h5>
-				<p>Warning: Because of the way most browsers manage resources, <b>switching tabs will slow the current playback by <u>a lot</u>!</b></p>
+				<button class="btn btn-primary" id="helpButton">Instructions & Info</button>
+				<br>
+				<br>
+				<div id="help">
+					<p>Because of the way most browsers manage resources, <b>switching browser tabs will slow the current playback by <u>a lot</u>!</b></p>
+					<p>All tabs the program reads are assumed to be in standard tuning.</p>
+					<p>The program ignores any non-numeric characters.</p>
+					<p>When tabbing, always have a space or dash separating notes</p>
+					<p><code>4-2</code> would play notes 4, then 2. <code>42</code> will break</p>
+					<p>Feel free to contribute to TabCollab on GitHub <a href="http://github.com/mjkaufer/TabCollab">here</a></p>
+				</div>
 			</div>
+			<br>
 
 			<div class="container-fluid">
 				<textarea id="tab" class="form-control">
@@ -54,27 +43,31 @@ E|---------------3-|
 		<div class="col-md-4 col-md-offset-4">
 			<div class="container-fluid">
 				<div class="form-group">
+					<div class="container-fluid">
+						<div class="col-md-12">
+							<label for="speed"><b>Milliseconds per Note</b></label>
+							
+							<input id="speed" type="number" value="75" class="form-control">
+						</div>
+					</div>
+					<br>
+					<div class="container-fluid">
+						<div class="col-md-6">
+							<button class="btn btn-primary controls" id="play"><span class="glyphicon glyphicon-play"></span>&nbsp;Play Your Tab!</button>
+							<button class="btn btn-success controls" id="sync"><span class="glyphicon glyphicon-refresh"></span>&nbsp;Sync</button>
+						</div>
+						<div class="col-md-6">
 
-					<label for="speed"><b>Milliseconds per Note</b></label>
-					
-					<input id="speed" type="number" value="75" class="form-control">
-					<br>
-					<button class="btn btn-primary" id="play"><span class="glyphicon glyphicon-play"></span>&nbsp;Play Your Tab!</button>
-					<br>
-					<br>
-					<button class="btn btn-danger" id="stop"><span class="glyphicon glyphicon-stop"></span>&nbsp;Stop</button>
-					<br>
-					<br>
-					<button class="btn btn-success" id="sync"><span class="glyphicon glyphicon-refresh"></span>&nbsp;Sync</button>
-					<br>
-					<br>
-					<button class="btn btn-info" id="playForAll"><span class="glyphicon glyphicon-volume-up"></span>&nbsp;Play Your Tab for Everyone</button>
-					<br>
-					<br>
+							<button class="btn btn-danger controls" id="stop"><span class="glyphicon glyphicon-stop"></span>&nbsp;Stop</button>
+							<button class="btn btn-info controls" id="playForAll"><span class="glyphicon glyphicon-volume-up"></span>&nbsp;Play Your Tab for Everyone</button>
+						</div>
+					</div>
 
-					<div id="newRoom">
-						<button class="btn btn-warning" id="room"><span class="glyphicon glyphicon-link"></span>&nbsp;New Room</button>
-						<p id="roomInfo" style="display:none;">Have friends go to <a href="" id="roomLink">here</a> to share tabs with you!</p>
+					<div id="newRoom" class="container-fluid">
+						<div class="col-md-12">
+							<button class="btn btn-warning bigControls" id="room"><span class="glyphicon glyphicon-link"></span>&nbsp;New Room</button>
+							<p id="roomInfo" style="display:none;">Have friends go to <a href="" id="roomLink">here</a> to share tabs with you!</p>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -94,6 +87,17 @@ E|---------------3-|
 			</div>
 		</div>
 
+		<div class="col-md-8 col-md-offset-2">
+			<div class="container-fluid">
+		
+				<div class="container-fluid">
+					<hr>
+					<h5>By <a href="http://github.com/mjkaufer">mjkaufer</a></h5>
+					<h5>Fork TabCollab on <a href="http://github.com/mjkaufer/TabCollab">GitHub</a></h5>
+
+				</div>
+			</div>
+		</div>
 
 		<script>
 
@@ -164,7 +168,7 @@ E|---------------3-|
 			for(var i = 0; i < frequencies.length; i++)
 				guitars[i] = makeGuitar()
 
-			var chordRegex = /[EBGDA]/gi;
+			var chordRegex = /[eBGDAE]/g;
 			var breakRegex = /\-\|\-/g;
 
 			function cleanTab(tab){
@@ -310,6 +314,15 @@ E|---------------3-|
 
 				// channel.open(roomId)
 				window.location += "?id=" + roomId
+			}
+
+			var helpDiv = document.getElementById('help')
+
+			document.getElementById('helpButton').onclick = function(){
+				if(helpDiv.style.animationName == "expand")
+					helpDiv.style.animationName = "contract"
+				else
+					helpDiv.style.animationName = "expand"
 			}
 
 			function generateId(){

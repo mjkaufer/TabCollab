@@ -1,0 +1,102 @@
+.controls{
+	width:100%;
+	margin-bottom: 2em !important;
+}
+
+.bigControls{
+	width:100%;
+}
+
+textarea{
+	width:100% !important;
+	height:60vh !important;
+	font-family: monospace !important;
+}
+body{
+	text-align: center;
+}
+div.friendTab{
+	border: solid black 1px;
+	border-radius: 1em;
+	padding: 1em;
+}
+pre{
+	text-align: left;
+}
+
+#tabs div{
+	margin: 3em 0 !important;
+}
+
+#help{
+	height:0;
+	overflow: hidden;
+	animation-duration: 1s;
+	-webkit-animation-duration: 1s;
+	-moz-animation-duration: 1s;
+/*				animation-name: contract;
+	-webkit-animation-name: contract;
+	-moz-animation-name: contract;*/
+	-webkit-animation-fill-mode: forwards;
+	-moz-animation-fill-mode: forwards;
+}
+
+@-moz-keyframes expand{
+	from{
+		height:0;
+	}
+
+	to{
+		height:12em;
+	}
+}
+
+@-webkit-keyframes expand{
+	from{
+		height:0;
+	}
+
+	to{
+		height:12em;
+	}
+}
+
+@keyframes expand{
+	from{
+		height:0;
+	}
+
+	to{
+		height:12em;
+	}	
+}
+
+@-moz-keyframes contract{
+	from{
+		height:12em;
+	}
+
+	to{
+		height:0;
+	}
+}
+
+@-webkit-keyframes contract{
+	from{
+		height:12em;
+	}
+
+	to{
+		height:0;
+	}
+}
+
+@keyframes contract{
+	from{
+		height:12em;
+	}
+
+	to{
+		height:0;
+	}	
+}

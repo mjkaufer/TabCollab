@@ -320,10 +320,13 @@ E|---------------3-|
 			var helpDiv = document.getElementById('help')
 
 			document.getElementById('helpButton').onclick = function(){
-				if(helpDiv.style.animationName == "expand")
+				if(helpDiv.style.animationName == "expand" || helpDiv.style.webkitAnimationName == "expand"){
 					helpDiv.style.animationName = "contract"
-				else
+					helpDiv.style.webkitAnimationName = "contract"
+				} else {
 					helpDiv.style.animationName = "expand"
+					helpDiv.style.webkitAnimationName = "expand"
+				}
 			}
 
 			function generateId(){

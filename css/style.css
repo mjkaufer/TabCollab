@@ -1,3 +1,18 @@
+.btn {
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	border: 0 none !important;
+}
+ 
+.btn-record {
+	background-color: #8e44ad !important;
+	color: #ffffff;
+}
+ 
+.btn-record:hover, .btn-record:focus, .btn-record:active, .btn-record.active, .open > .dropdown-toggle.btn-record {
+	background-color: #9b59b6 !important;
+}
+
 .controls{
 	width:100%;
 	margin-bottom: 2em !important;

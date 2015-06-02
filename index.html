@@ -340,14 +340,17 @@ E|---------------3-|
 			}
 
 			document.getElementById('wav').onclick = function(){
+
 				recorder.rec.clear()
+
+				recording = true
 
 				recorder.rec.record()
 
 				playClick(function(){
 
 					recorder.rec.stop()
-
+					recording = false
 					recorder.rec.exportWAV(function(blob) {
 
 						var url = URL.createObjectURL(blob);

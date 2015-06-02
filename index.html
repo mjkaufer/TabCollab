@@ -378,7 +378,7 @@ E|---------------3-|
 				document.getElementById('roomLink').href = "?id=" + roomId
 
 				// channel.open(roomId)
-				window.location += "?id=" + roomId
+				window.location += "?id=" + roomId + "&h=1"
 			}
 
 			var helpDiv = document.getElementById('help')
@@ -461,12 +461,13 @@ E|---------------3-|
 			var roomId = getParameterByName("id");
 
 			if(roomId != ""){
-				setTimeout(function(){
-					channel.open(roomId)	
-				}, 500)
-				
-				channel.connect(roomId)
 
+				if(getParameterByName("h").indexOf('1') == 0){
+					channel.open(roomId)
+				} else {
+					channel.connect(roomId)	
+				}
+				
 				room.style.display = "none"
 
 				document.getElementById('roomInfo').style.display = ""

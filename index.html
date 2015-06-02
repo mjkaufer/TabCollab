@@ -61,7 +61,7 @@ E|---------------3-|
 						<div class="col-md-6">
 
 							<button class="btn btn-danger controls" id="stop"><span class="glyphicon glyphicon-stop"></span>&nbsp;Stop</button>
-							<button class="btn btn-info controls" id="playForAll"><span class="glyphicon glyphicon-volume-up"></span>&nbsp;Play Your Tab for Everyone</button>
+							<button class="btn btn-info controls" id="playForAll"><span class="glyphicon glyphicon-volume-up"></span>&nbsp;Global Play</button>
 						</div>
 
 						<div class="col-md-12">
@@ -309,6 +309,7 @@ E|---------------3-|
 
 			function playForAll(){
 				channel.send(["playForAll", document.getElementById('tab').value])
+				playClick()
 			}
 
 			play.onclick = function(){
@@ -380,10 +381,13 @@ E|---------------3-|
 			var helpDiv = document.getElementById('help')
 
 			document.getElementById('helpButton').onclick = function(){
-				if(helpDiv.style.animationName == "expand")
+				if(helpDiv.style.animationName == "expand" || helpDiv.style.webkitAnimationName == "expand"){
 					helpDiv.style.animationName = "contract"
-				else
+					helpDiv.style.webkitAnimationName = "contract"
+				} else {
 					helpDiv.style.animationName = "expand"
+					helpDiv.style.webkitAnimationName = "expand"
+				}
 			}
 
 			function generateId(){

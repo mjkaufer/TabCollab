@@ -44,16 +44,14 @@ pre{
 }
 
 #help{
-	height:0;
-	overflow: hidden;
-	animation-duration: 1s;
-	-webkit-animation-duration: 1s;
-	-moz-animation-duration: 1s;
-/*				animation-name: contract;
-	-webkit-animation-name: contract;
-	-moz-animation-name: contract;*/
-	-webkit-animation-fill-mode: forwards;
-	-moz-animation-fill-mode: forwards;
+	overflow:hidden;
+	height: auto;
+	max-height: 0;
+	transition: max-height 0.75s ease-in-out;
+}
+
+#help.display{
+	max-height: 18em;/*arbitrary*/
 }
 
 @-moz-keyframes expand{
@@ -62,7 +60,7 @@ pre{
 	}
 
 	to{
-		height:12em;
+		height:14em;
 	}
 }
 
@@ -72,7 +70,7 @@ pre{
 	}
 
 	to{
-		height:12em;
+		height:14em;
 	}
 }
 
@@ -82,13 +80,13 @@ pre{
 	}
 
 	to{
-		height:12em;
+		height:14em;
 	}	
 }
 
 @-moz-keyframes contract{
 	from{
-		height:12em;
+		height:14em;
 	}
 
 	to{
@@ -98,7 +96,7 @@ pre{
 
 @-webkit-keyframes contract{
 	from{
-		height:12em;
+		height:14em;
 	}
 
 	to{
@@ -108,7 +106,7 @@ pre{
 
 @keyframes contract{
 	from{
-		height:12em;
+		height:14em;
 	}
 
 	to{

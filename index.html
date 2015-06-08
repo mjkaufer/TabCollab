@@ -384,13 +384,7 @@ E|---------------3-|
 			var helpDiv = document.getElementById('help')
 
 			document.getElementById('helpButton').onclick = function(){
-				if(helpDiv.style.animationName == "expand" || helpDiv.style.webkitAnimationName == "expand"){
-					helpDiv.style.animationName = "contract"
-					helpDiv.style.webkitAnimationName = "contract"
-				} else {
-					helpDiv.style.animationName = "expand"
-					helpDiv.style.webkitAnimationName = "expand"
-				}
+				helpDiv.className = (helpDiv.className == "display") ? "" : "display"
 			}
 
 			function generateId(){

@@ -1,3 +1,13 @@
+#stringAnim {
+   width: 100%;
+   text-align:center;
+   position: fixed;
+}
+
+canvas {
+   display: inline;
+}
+
 .btn {
 	letter-spacing: 1px;
 	text-transform: uppercase;

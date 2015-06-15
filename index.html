@@ -558,11 +558,11 @@ E|---------------3-|
 						var lw = 1 + 0.25 * (freqs.length - 1 - i);
 						var x = 2 * a + 100 * i;
 
-						if(freqs[i] == 0){
+						if(freqs[freqs.length - 1 - i] == 0){
 							verticalLine(x, lw)
 							continue;
 						}
-						animate(x, freqs[i] / 750, a, lw)
+						animate(x, freqs[freqs.length - 1 - i] / 750, a, lw)
 					}
 					// animate(50, 0.05, 25, 1)
 					// animate(150, 0.06, 25, 1.25)
